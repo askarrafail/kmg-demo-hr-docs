@@ -1,0 +1,5 @@
+# Бинарные документы и изображения — не диффить и не мержить
+*.pdf  binary
+*.docx binary
+*.xlsx binary
+*.png  binary

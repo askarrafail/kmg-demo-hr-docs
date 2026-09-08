@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KMG Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* ============ KMG tokens — светлая тема ============ */
+:root{
+  --ocean-50:#ECF9FE;--ocean-100:#D3F1FC;--ocean-200:#A9E4FA;--ocean-300:#6FD1F6;--ocean-400:#1FB3E8;
+  --ocean-500:#009EE3;--ocean-600:#0086C4;--ocean-700:#00679F;--ocean-800:#005080;--ocean-900:#123A56;
+  --depth-0:#FFFFFF;--depth-25:#F7F9FB;--depth-50:#F2F3F7;--depth-100:#E6E9EF;--depth-200:#D3D8E0;
+  --depth-300:#B4BCC8;--depth-400:#8B95A5;--depth-500:#667085;--depth-600:#475467;--depth-700:#33404F;
+  --depth-800:#1D2939;--depth-900:#0E1C2E;
+  --steppe-50:#EAF7EE;--steppe-300:#85D294;--steppe-500:#37B550;--steppe-600:#1F8F3D;--steppe-700:#177A33;
+  --lime-500:#8FC73E;
+  --amber-50:#FEF6E7;--amber-500:#E4A11B;--amber-700:#B54708;
+  --rust-50:#FEF0EE;--rust-500:#D64A3B;--rust-700:#B42318;
+  --data-1:#00679F;--data-2:#009EE3;--data-3:#177A33;--data-4:#8FC73E;--data-5:#B54708;--data-6:#6B4E9E;--data-neutral:#B4BCC8;
+
+  --bg-page:var(--depth-25);--bg-surface:var(--depth-0);--bg-subtle:var(--depth-50);
+  --bg-inverse:var(--depth-900);--bg-brand-subtle:var(--ocean-50);
+  --text-primary:var(--depth-900);--text-secondary:var(--depth-600);--text-tertiary:var(--depth-500);
+  --text-inverse:var(--depth-0);--text-link:var(--ocean-700);--text-link-hover:var(--ocean-800);
+  --text-success:var(--steppe-700);--text-warning:var(--amber-700);--text-danger:var(--rust-700);
+  --border-subtle:var(--depth-100);--border-default:var(--depth-200);--border-strong:var(--depth-300);
+  --border-focus:var(--ocean-700);
+  --action-primary:var(--ocean-700);--action-primary-hover:var(--ocean-800);--action-primary-active:#00415F;
+  --action-danger:var(--rust-700);
+
+  --font-display:"IBM Plex Sans Condensed","Ubuntu Condensed","Arial Narrow",sans-serif;
+  --font-body:Inter,Ubuntu,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-mono:"IBM Plex Mono","SF Mono",Consolas,monospace;
+
+  --shadow-sm:0 1px 2px rgba(14,28,46,.06);
+  --shadow-md:0 4px 12px rgba(14,28,46,.10);
+  --shadow-lg:0 16px 40px rgba(14,28,46,.16);
+  --shadow-focus:0 0 0 3px rgba(0,103,159,.35);
+
+  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;
+  --strata-h:4px;
+  --dur-fast:140ms;--dur-base:220ms;--ease-standard:cubic-bezier(.2,0,0,1);
+  color-scheme:light;
+}
+/* ============ Тёмная тема (system) ============ */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg-page:var(--depth-900);--bg-surface:var(--depth-800);--bg-subtle:#16293F;
+    --bg-inverse:var(--depth-0);--bg-brand-subtle:rgba(0,158,227,.14);
+    --text-primary:#F2F5F9;--text-secondary:#AEB9C8;--text-tertiary:#8B95A5;
+    --text-inverse:var(--depth-900);--text-link:var(--ocean-300);--text-link-hover:var(--ocean-200);
+    --text-success:var(--steppe-300);--text-warning:#F0C25C;--text-danger:#F09A90;
+    --border-subtle:rgba(255,255,255,.10);--border-default:rgba(255,255,255,.16);--border-strong:rgba(255,255,255,.28);
+    --border-focus:var(--ocean-300);
+    --action-primary:var(--ocean-600);--action-primary-hover:var(--ocean-500);--action-primary-active:var(--ocean-700);
+    --shadow-sm:none;--shadow-md:0 4px 12px rgba(0,0,0,.4);--shadow-lg:0 16px 40px rgba(0,0,0,.5);
+    --shadow-focus:0 0 0 3px rgba(111,209,246,.45);
+    color-scheme:dark;
+  }
+}
+/* ============ Тёмная тема (явный выбор) ============ */
+:root[data-theme="dark"]{
+  --bg-page:var(--depth-900);--bg-surface:var(--depth-800);--bg-subtle:#16293F;
+  --bg-inverse:var(--depth-0);--bg-brand-subtle:rgba(0,158,227,.14);
+  --text-primary:#F2F5F9;--text-secondary:#AEB9C8;--text-tertiary:#8B95A5;
+  --text-inverse:var(--depth-900);--text-link:var(--ocean-300);--text-link-hover:var(--ocean-200);
+  --text-success:var(--steppe-300);--text-warning:#F0C25C;--text-danger:#F09A90;
+  --border-subtle:rgba(255,255,255,.10);--border-default:rgba(255,255,255,.16);--border-strong:rgba(255,255,255,.28);
+  --border-focus:var(--ocean-300);
+  --action-primary:var(--ocean-600);--action-primary-hover:var(--ocean-500);--action-primary-active:var(--ocean-700);
+  --shadow-sm:none;--shadow-md:0 4px 12px rgba(0,0,0,.4);--shadow-lg:0 16px 40px rgba(0,0,0,.5);
+  --shadow-focus:0 0 0 3px rgba(111,209,246,.45);
+  color-scheme:dark;
+}
+
+/* ============ База ============ */
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-page);color:var(--text-primary);
+  font-family:var(--font-body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--text-link);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--text-link-hover);text-decoration-thickness:2px}
+code,.mono{font-family:var(--font-mono);font-size:.8125rem}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0 0 1rem;max-width:72ch}
+:focus-visible{outline:none;box-shadow:var(--shadow-focus);border-radius:var(--radius-sm)}
+
+.layout{max-width:1280px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:48px}
+@media(max-width:900px){.layout{grid-template-columns:1fr;gap:0}.sidenav{display:none}}
+
+/* ============ Навигация ============ */
+.sidenav{position:sticky;top:24px;align-self:start;padding:24px 0 48px}
+.sidenav .mark{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.sidenav .mark .sq{width:26px;height:26px;background:var(--ocean-500);border-radius:2px;flex:none;position:relative}
+.sidenav .mark .sq::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9px;background:var(--depth-900)}
+.sidenav .mark b{font-family:var(--font-display);font-weight:600;font-size:1rem;letter-spacing:.02em}
+.sidenav ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--border-subtle)}
+.sidenav a{display:block;padding:5px 0 5px 14px;font-size:.8125rem;color:var(--text-secondary);
+  text-decoration:none;border-left:2px solid transparent;margin-left:-1px}
+.sidenav a:hover{color:var(--text-primary);border-left-color:var(--ocean-500)}
+.sidenav .num{font-family:var(--font-mono);font-size:.6875rem;color:var(--text-tertiary);margin-right:6px}
+
+/* ============ Типографика документа ============ */
+main{padding:24px 0 96px;min-width:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-tertiary)}
+.eyebrow.brand{color:var(--text-link)}
+section{margin-top:96px;scroll-margin-top:24px}
+section>h2{font-family:var(--font-display);font-weight:600;font-size:2rem;line-height:1.2;letter-spacing:-.01em;margin:8px 0 12px}
+section>.intro{color:var(--text-secondary);max-width:72ch}
+h3{font-size:1.125rem;font-weight:600;line-height:1.35;margin:40px 0 12px}
+.small{font-size:.8125rem;color:var(--text-tertiary);line-height:1.45}
+
+/* ============ Разрез ============ */
+.strata{display:flex;height:var(--strata-h);width:100%}
+.strata i{display:block}
+.strata-labels{display:flex;margin-top:8px;font-size:.75rem;color:var(--text-tertiary)}
+.strata-labels span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ============ Hero ============ */
+.hero{padding:56px 0 0}
+.hero h1{font-family:var(--font-display);font-weight:600;font-size:clamp(2.6rem,6vw,4.5rem);line-height:1.02;letter-spacing:-.02em;margin:12px 0 16px}
+.hero .lead{font-size:1.125rem;color:var(--text-secondary);max-width:60ch}
+.hero .thesis{margin:32px 0 40px;padding-left:20px;border-left:3px solid var(--ocean-500);
+  font-family:var(--font-display);font-weight:600;font-size:1.375rem;line-height:1.35;letter-spacing:-.01em;max-width:34ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border-subtle);
+  border:1px solid var(--border-subtle);margin-top:40px}
+.kpi{background:var(--bg-surface);padding:20px}
+.kpi .v{font-family:var(--font-display);font-weight:600;font-size:2.5rem;line-height:1.1;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.kpi .u{font-size:.8125rem;color:var(--text-tertiary);line-height:1.45;margin-top:2px}
+
+/* ============ Таблицы ============ */
+.tblwrap{overflow-x:auto;border:1px solid var(--border-subtle);background:var(--bg-surface)}
+table{border-collapse:collapse;width:100%;font-size:.875rem;line-height:1.55}
+th{font-weight:600;text-align:left;background:var(--bg-subtle);border-bottom:1px solid var(--border-default);
+  padding:10px 16px;white-space:nowrap}
+td{padding:10px 16px;border-bottom:1px solid var(--border-subtle);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.chip-hex{font-family:var(--font-mono);font-size:.75rem;color:var(--text-secondary)}
+
+/* ============ Свотчи ============ */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px;margin-top:16px}
+.sw .c{height:56px;border-radius:var(--radius-sm);border:1px solid var(--border-subtle)}
+.sw .n{font-size:.75rem;font-weight:600;margin-top:6px}
+.sw .h{font-family:var(--font-mono);font-size:.6875rem;color:var(--text-tertiary)}
+.sw .k{font-size:.6875rem;color:var(--text-tertiary)}
+
+/* ============ Карточки/призывы ============ */
+.callout{border:1px solid var(--border-subtle);border-left:3px solid var(--ocean-700);background:var(--bg-surface);
+  padding:20px 24px;margin:24px 0;max-width:760px}
+.callout.green{border-left-color:var(--steppe-600)}
+.callout.red{border-left-color:var(--rust-700)}
+.callout p:last-child{margin-bottom:0}
+.cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px}
+.card{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:24px}
+.card h4{margin:0 0 6px;font-size:1rem;font-weight:600}
+.card p{font-size:.875rem;color:var(--text-secondary);margin:0}
+
+pre{background:var(--bg-inverse);color:var(--text-inverse);font-family:var(--font-mono);font-size:.8125rem;
+  line-height:1.6;padding:20px 24px;overflow-x:auto;border-radius:var(--radius-sm);max-width:100%}
+:root[data-theme="dark"] pre{background:var(--bg-subtle);color:var(--text-primary);border:1px solid var(--border-subtle)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) pre{background:var(--bg-subtle);color:var(--text-primary);border:1px solid var(--border-subtle)}}
+
+/* ============ Живые компоненты ============ */
+.demo{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);
+  padding:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:16px}
+.btn{font:600 .9375rem/1 var(--font-body);height:44px;padding:0 20px;border-radius:var(--radius-md);
+  border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  transition:background var(--dur-fast) var(--ease-standard),color var(--dur-fast) var(--ease-standard)}
+.btn-primary{background:var(--action-primary);color:#fff}
+.btn-primary:hover{background:var(--action-primary-hover)}
+.btn-primary:active{background:var(--action-primary-active)}
+.btn-secondary{background:transparent;color:var(--action-primary);border-color:var(--action-primary)}
+.btn-secondary:hover{background:var(--bg-brand-subtle)}
+.btn-tertiary{background:transparent;color:var(--text-primary)}
+.btn-tertiary:hover{background:var(--bg-subtle)}
+.btn-danger{background:var(--action-danger);color:#fff}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-sm{height:36px;padding:0 14px;font-size:.875rem}
+
+.field{display:flex;flex-direction:column;gap:6px;min-width:240px}
+.field label{font-size:.875rem;font-weight:600}
+.field input{height:44px;padding:0 14px;border:1px solid var(--border-default);border-radius:var(--radius-sm);
+  background:var(--bg-surface);color:var(--text-primary);font:400 1rem var(--font-body)}
+.field input::placeholder{color:var(--text-tertiary)}
+.field input:focus-visible{border-color:var(--border-focus);box-shadow:var(--shadow-focus);outline:none}
+.field .hint{font-size:.8125rem;color:var(--text-tertiary)}
+.field.err input{border-color:var(--rust-700)}
+.field.err .hint{color:var(--text-danger)}
+
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:var(--radius-sm);
+  font-size:.8125rem;font-weight:600;line-height:1}
+.badge::before{content:"";width:6px;height:6px;border-radius:999px;background:currentColor}
+.badge.n{background:var(--depth-50);color:var(--depth-600)}
+.badge.i{background:var(--ocean-50);color:var(--ocean-800)}
+.badge.s{background:var(--steppe-50);color:var(--steppe-700)}
+.badge.w{background:var(--amber-50);color:var(--amber-700)}
+.badge.e{background:var(--rust-50);color:var(--rust-700)}
+:root[data-theme="dark"] .badge.n{background:rgba(255,255,255,.08);color:var(--text-secondary)}
+:root[data-theme="dark"] .badge.i{background:rgba(0,158,227,.16);color:var(--ocean-200)}
+:root[data-theme="dark"] .badge.s{background:rgba(55,181,80,.16);color:var(--steppe-300)}
+:root[data-theme="dark"] .badge.w{background:rgba(228,161,27,.16);color:#F0C25C}
+:root[data-theme="dark"] .badge.e{background:rgba(214,74,59,.16);color:#F09A90}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .badge.n{background:rgba(255,255,255,.08);color:var(--text-secondary)}
+  :root:not([data-theme="light"]) .badge.i{background:rgba(0,158,227,.16);color:var(--ocean-200)}
+  :root:not([data-theme="light"]) .badge.s{background:rgba(55,181,80,.16);color:var(--steppe-300)}
+  :root:not([data-theme="light"]) .badge.w{background:rgba(228,161,27,.16);color:#F0C25C}
+  :root:not([data-theme="light"]) .badge.e{background:rgba(214,74,59,.16);color:#F09A90}
+}
+
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:var(--radius-sm);border-left:3px solid;
+  font-size:.875rem;max-width:640px;margin-top:12px}
+.alert b{display:block;margin-bottom:2px}
+.alert.info{background:var(--bg-brand-subtle);border-color:var(--ocean-700);color:var(--text-primary)}
+.alert.warn{background:var(--amber-50);border-color:var(--amber-700);color:var(--depth-900)}
+.alert.err{background:var(--rust-50);border-color:var(--rust-700);color:var(--depth-900)}
+:root[data-theme="dark"] .alert.warn{background:rgba(228,161,27,.12);color:var(--text-primary)}
+:root[data-theme="dark"] .alert.err{background:rgba(214,74,59,.12);color:var(--text-primary)}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .alert.warn{background:rgba(228,161,27,.12);color:var(--text-primary)}
+  :root:not([data-theme="light"]) .alert.err{background:rgba(214,74,59,.12);color:var(--text-primary)}
+}
+
+/* KPI-карточка компонента */
+.kpicard{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);
+  padding:24px;min-width:200px;flex:1}
+.kpicard .strata{margin:-24px -24px 20px;width:auto;border-radius:var(--radius-md) var(--radius-md) 0 0;overflow:hidden}
+.kpicard .v{font-family:var(--font-display);font-weight:600;font-size:2.75rem;line-height:1;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;margin-top:6px}
+.kpicard .u{font-size:.8125rem;color:var(--text-tertiary);margin-top:4px}
+.kpicard .d{font-size:.8125rem;font-weight:600;margin-top:10px}
+.kpicard .d.up{color:var(--text-success)}
+.kpicard .d.down{color:var(--text-danger)}
+
+/* Мини-диаграмма */
+.chart{display:flex;align-items:flex-end;gap:18px;height:180px;padding:20px 20px 0;border-bottom:1px solid var(--border-strong)}
+.chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%}
+.chart .bar{width:100%;max-width:64px;background:var(--data-1)}
+.chart .bar.plan{background:transparent;border:2px solid var(--data-1)}
+.chart .val{font-family:var(--font-mono);font-size:.75rem;font-variant-numeric:tabular-nums;color:var(--text-secondary)}
+.chart-x{display:flex;gap:18px;padding:8px 20px 0;font-size:.75rem;color:var(--text-tertiary)}
+.chart-x span{flex:1;text-align:center}
+
+/* CEO Hub — панель всегда тёмная (демонстрация тёмных токенов) */
+.hub{background:#0E1C2E;border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-md);padding:24px;margin-top:16px}
+.hub .hd{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.hub .hd b{color:#F2F5F9;font-size:.9375rem}
+.hub .hd span{font-family:var(--font-mono);font-size:.6875rem;color:#8B95A5}
+.hub .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.hub .cell{background:#1D2939;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-sm);padding:14px}
+.hub .cell .l{font-size:.6875rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8B95A5}
+.hub .cell .n{font-family:var(--font-display);font-weight:600;font-size:1.75rem;color:#F2F5F9;
+  font-variant-numeric:tabular-nums;margin-top:6px;line-height:1.1}
+.hub .cell .s{font-size:.75rem;margin-top:4px}
+.hub .cell .s.up{color:#85D294}.hub .cell .s.down{color:#F09A90}
+
+/* Отступы-демо */
+.spacebars{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.spacebar{display:flex;align-items:center;gap:14px;font-size:.8125rem}
+.spacebar i{display:block;height:16px;background:var(--ocean-200);border:1px solid var(--ocean-400)}
+.spacebar code{color:var(--text-secondary);width:88px;flex:none}
+.spacebar span{color:var(--text-tertiary)}
+
+.radii{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px}
+.radii .r{width:110px}
+.radii .r i{display:block;height:64px;background:var(--bg-surface);border:1px solid var(--border-strong)}
+.radii .r .n{font-size:.75rem;font-weight:600;margin-top:6px}
+.radii .r .k{font-size:.6875rem;color:var(--text-tertiary)}
+
+.checklist{list-style:none;margin:12px 0 0;padding:0;max-width:640px}
+.checklist li{padding:8px 0 8px 30px;border-bottom:1px solid var(--border-subtle);font-size:.9375rem;position:relative}
+.checklist li::before{content:"";position:absolute;left:2px;top:14px;width:14px;height:14px;
+  border:1.5px solid var(--border-strong);border-radius:3px}
+
+.qa{margin-top:16px;max-width:760px}
+.qa li{margin-bottom:10px}
+footer{margin-top:96px;padding-top:24px;border-top:1px solid var(--border-subtle);
+  font-size:.8125rem;color:var(--text-tertiary);max-width:72ch}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+<nav class="sidenav" aria-label="Разделы">
+  <div class="mark"><span class="sq" aria-hidden="true"></span><b>KMG DS</b></div>
+  <ol>
+    <li><a href="#brand"><span class="num">01</span>Бренд</a></li>
+    <li><a href="#principles"><span class="num">02</span>Принципы</a></li>
+    <li><a href="#voice"><span class="num">03</span>Вербальный стиль</a></li>
+    <li><a href="#color"><span class="num">04</span>Цвет</a></li>
+    <li><a href="#type"><span class="num">05</span>Типографика</a></li>
+    <li><a href="#space"><span class="num">06</span>Сетка и форма</a></li>
+    <li><a href="#motion"><span class="num">07</span>Движение</a></li>
+    <li><a href="#components"><span class="num">08</span>Компоненты</a></li>
+    <li><a href="#patterns"><span class="num">09</span>Паттерны</a></li>
+    <li><a href="#dataviz"><span class="num">10</span>Диаграммы</a></li>
+    <li><a href="#a11y"><span class="num">11</span>Доступность</a></li>
+    <li><a href="#i18n"><span class="num">12</span>Три языка</a></li>
+    <li><a href="#gov"><span class="num">13</span>Управление</a></li>
+    <li><a href="#roadmap"><span class="num">14</span>Дорожная карта</a></li>
+    <li><a href="#questions"><span class="num">15</span>Открытые вопросы</a></li>
+  </ol>
+</nav>
+<main>
+
+<header class="hero">
+  <div class="eyebrow brand">АО НК «КазМунайГаз» · Версия 1.0 · Черновик к ревью</div>
+  <h1>KMG Design System</h1>
+  <p class="lead">Бренд-платформа и дизайн-система национального оператора нефтегазовой отрасли Казахстана. Основа — аудит kmg.kz в трёх языковых версиях: RU / ҚАЗ / ENG.</p>
+  <div style="margin-top:28px;max-width:640px">
+    <div class="strata" role="img" aria-label="Структура бизнеса: добыча 20%, транспортировка 64%, переработка 16%">
+      <i style="width:20%;background:var(--data-1)"></i><i style="width:64%;background:var(--data-2)"></i><i style="width:16%;background:var(--data-3)"></i>
+    </div>
+    <div class="strata-labels">
+      <span style="width:20%">добыча</span><span style="width:64%">транспортировка</span><span style="width:16%">переработка</span>
+    </div>
+  </div>
+  <blockquote class="thesis">Компания, которая добывает под землёй, а отчитывается на свету.</blockquote>
+  <p style="max-width:72ch;color:var(--text-secondary)">Смысловая ось бренда — <strong>глубина и прозрачность</strong>. Глубина: шестикилометровые скважины, 8 900 км трубопроводов, горизонт планирования до 2031 года. Прозрачность: публичная компания с листингом на KASE и AIX, которая раскрывает цифры и отвечает за экологический след. Отсюда весь визуальный язык: тёмная порода снизу, светлая поверхность сверху, синий как связующая среда.</p>
+  <div class="kpis" aria-label="Ключевые показатели 2025">
+    <div class="kpi"><div class="v" data-count="26">26</div><div class="u">млн тонн — добыча нефти</div></div>
+    <div class="kpi"><div class="v" data-count="83">83</div><div class="u">млн тонн — транспортировка</div></div>
+    <div class="kpi"><div class="v" data-count="21">21</div><div class="u">млн тонн — переработка</div></div>
+    <div class="kpi"><div class="v"><span data-count="8.9" data-dec="1">8,9</span></div><div class="u">тыс. км трубопроводов</div></div>
+  </div>
+  <p class="small" style="margin-top:10px">Счётчики — единственная оркестрованная анимация системы: 900 мс, ease-out, сдвиг 60 мс, tabular-nums. При prefers-reduced-motion значения показываются сразу.</p>
+</header>
+
+<section id="brand">
+  <div class="eyebrow">01</div>
+  <h2>Что мы проектируем</h2>
+  <p class="intro">Публичная компания с обязательным раскрытием информации, ESG-повесткой и тремя языками интерфейса. Это определяет характер системы больше, чем любые вкусовые предпочтения. Одна система, три плотности — не три разных дизайна.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Аудитория</th><th>Что им нужно</th><th>Режим системы</th></tr></thead>
+    <tbody>
+      <tr><td>Инвесторы и аналитики</td><td>Отчётность, котировки, раскрытие, PDF</td><td>Плотность данных, таблицы, цифры</td></tr>
+      <tr><td>Общество и СМИ</td><td>Новости, проекты, экология, карьера</td><td>Медиа, крупные образы, воздух</td></tr>
+      <tr><td>Руководство и сотрудники</td><td>Дашборды, показатели, CEO Hub</td><td>Максимальная плотность, тёмная тема</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Атрибуты бренда</h3>
+  <div class="cards2">
+    <div class="card"><h4>Масштаб без пафоса</h4><p>26 млн тонн — это факт, а не восклицательный знак. Цифра работает сама, ей не нужен градиент.</p></div>
+    <div class="card"><h4>Инженерная точность</h4><p>Формы прямые, сетка жёсткая, шрифт технический. Ничего «дизайнерского» ради дизайна.</p></div>
+    <div class="card"><h4>Открытость по умолчанию</h4><p>Данные показываем, а не прячем за «Подробнее».</p></div>
+    <div class="card"><h4>Ответственность</h4><p>Экология и безопасность — не отдельная зелёная страница, а зелёный акцент во всей системе.</p></div>
+    <div class="card"><h4>Казахстанскость без орнамента</h4><p>Национальность выражается языком, содержанием и топонимикой, а не бараньим рогом на кнопке.</p></div>
+  </div>
+</section>
+
+<section id="principles">
+  <div class="eyebrow">02</div>
+  <h2>Принципы дизайна</h2>
+  <div class="cards2">
+    <div class="card"><h4>1 · Цифра — герой</h4><p>Главный элемент почти любого экрана — число: display-начертание, табличные цифры, единица измерения отдельной строкой в 3 раза меньше. Число никогда не набирается тем же кеглем, что и подпись.</p></div>
+    <div class="card"><h4>2 · Доступность — база, а не режим</h4><p>Переключатель «для слабовидящих» — признание, что обычная версия недостаточно доступна. Цель — сделать основную версию такой, чтобы спецрежим был усилением, а не спасением.</p></div>
+    <div class="card"><h4>3 · Плотность настраивается, макет — нет</h4><p>Один компонент, два режима: comfortable для публичных страниц и compact для дашбордов и реестров. Отдельных компонентов «для дашборда» не делаем.</p></div>
+    <div class="card"><h4>4 · Скучное — надёжно</h4><p>Госкорпоративный контекст наказывает за эксперименты не в том месте. Смелость тратим в одном месте — «Разрезе», всё остальное держим тихим.</p></div>
+    <div class="card"><h4>5 · Три языка с первого пикселя</h4><p>Любой макет проверяется на казахском: он на 10–15% длиннее русского. Кнопки не фиксируем по ширине.</p></div>
+  </div>
+
+  <h3>Фирменный элемент: «Разрез»</h3>
+  <p>Единственный декоративный приём системы — горизонтальная многослойная линейка высотой 4px (<code>--kmg-strata-h</code>), отсылающая к геологическому разрезу. Условие: <strong>ширина слоёв всегда кодирует реальную пропорцию данных на этом экране.</strong> Если данных для пропорции нет — ставится обычная линия <code>border-subtle</code>.</p>
+  <div class="demo" style="display:block">
+    <div class="strata" role="img" aria-label="Пример разреза: доли направлений бизнеса">
+      <i style="width:20%;background:var(--data-1)"></i><i style="width:64%;background:var(--data-2)"></i><i style="width:16%;background:var(--data-3)"></i>
+    </div>
+    <div class="strata-labels"><span style="width:20%">добыча</span><span style="width:64%">транспортировка</span><span style="width:16%">переработка</span></div>
+  </div>
+  <p class="small" style="margin-top:10px">Применяется: над KPI-блоками, как разделитель разделов отчётности, как индикатор структуры в карточках. Не применяется: в шапке, футере, кнопках, внутри текста.</p>
+</section>
+
+<section id="voice">
+  <div class="eyebrow">03</div>
+  <h2>Вербальный стиль</h2>
+  <p class="intro">Спокойный, конкретный, без превосходных степеней. Пишем как инженер, объясняющий журналисту, а не как пресс-служба, отчитывающаяся перед министерством.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th style="color:var(--text-danger)">Не так</th><th style="color:var(--text-success)">Так</th></tr></thead>
+    <tbody>
+      <tr><td>Компания успешно реализует масштабные проекты</td><td>КМГ строит газохимический комплекс в Атырауской области</td></tr>
+      <tr><td>Осуществляется приём обращений</td><td>Подать обращение</td></tr>
+      <tr><td>Ваша заявка была успешно отправлена</td><td>Заявка отправлена. Ответим в течение 5 рабочих дней</td></tr>
+      <tr><td>Ошибка. Попробуйте позже</td><td>Не удалось загрузить отчёт. Обновите страницу или скачайте PDF</td></tr>
+      <tr><td>Данные отсутствуют</td><td>Отчёты за 2026 год появятся после публикации годовой отчётности</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Правила интерфейсных текстов</h3>
+  <p>Действие называется одинаково на всём пути: кнопка «Скачать отчёт» → тост «Отчёт скачан». Кнопка — глагол в инфинитиве: «Скачать», «Отправить», «Показать все». Заголовки — предложным регистром, не Caps Lock и не Title Case (исключение — eyebrow-метки). Ошибка объясняет, что случилось и что делать; ошибка не извиняется. Пустой экран — приглашение к действию, а не констатация пустоты.</p>
+  <h3>Числа, даты, единицы</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Правило</th><th class="num">Пример</th></tr></thead>
+    <tbody>
+      <tr><td>Разряды — тонким пробелом, не запятой и не точкой</td><td class="num"><code>8 900</code></td></tr>
+      <tr><td>Дробная часть — запятая в RU/KZ, точка в EN</td><td class="num"><code>93,8</code> / <code>93.8</code></td></tr>
+      <tr><td>Дата: RU/KZ и EN</td><td class="num"><code>01.06.2026</code> / <code>1 June 2026</code></td></tr>
+      <tr><td>Единица измерения — отдельным элементом, после числа</td><td class="num"><code>26 млн тонн</code></td></tr>
+      <tr><td>Валюта — символ после числа с неразрывным пробелом</td><td class="num"><code>94 млрд ₸</code></td></tr>
+      <tr><td>Динамика — с настоящим минусом U+2212, не дефисом</td><td class="num"><span style="color:var(--text-success);font-weight:600">+0,4</span> · <span style="color:var(--text-danger);font-weight:600">−15</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="color">
+  <div class="eyebrow">04</div>
+  <h2>Цвет</h2>
+  <p class="intro">Ядро унаследовано с текущего сайта: #009EE3, #0072BC, #263D5C, зелёный #37B550, фоны #F7F9FB / #F2F3F7. Мы их не выбрасываем — достраиваем до полноценных шкал и чиним контраст.</p>
+
+  <div class="callout red">
+    <p><strong>Найденная проблема.</strong> Белый текст на #009EE3 — контраст <strong>3.00:1</strong> (провал AA, нужно 4.5:1). #009EE3 на белом — 3.00:1, #37B550 на белом — 2.66:1, #8FC73E — 2.02:1. Фирменный голубой физически не может быть цветом кнопок и ссылок.</p>
+  </div>
+  <div class="callout green">
+    <p><strong>Решение системы.</strong> #009EE3 остаётся <strong>цветом знака и графики</strong>. Интерактив — кнопки, ссылки, фокус — уезжает на <strong>#00679F</strong> (6.10:1 с белым). Бренд визуально не меняется, интерфейс становится законным.</p>
+  </div>
+
+  <h3>Ocean — фирменный синий</h3>
+  <div class="swatches">
+    <div class="sw"><div class="c" style="background:#ECF9FE"></div><div class="n">ocean-50</div><div class="h">#ECF9FE</div><div class="k">фон подсветки</div></div>
+    <div class="sw"><div class="c" style="background:#D3F1FC"></div><div class="n">ocean-100</div><div class="h">#D3F1FC</div><div class="k">чипы, hover строк</div></div>
+    <div class="sw"><div class="c" style="background:#A9E4FA"></div><div class="n">ocean-200</div><div class="h">#A9E4FA</div><div class="k">границы акцентов</div></div>
+    <div class="sw"><div class="c" style="background:#6FD1F6"></div><div class="n">ocean-300</div><div class="h">#6FD1F6</div><div class="k">графики, тём. ссылки</div></div>
+    <div class="sw"><div class="c" style="background:#1FB3E8"></div><div class="n">ocean-400</div><div class="h">#1FB3E8</div><div class="k">градации диаграмм</div></div>
+    <div class="sw"><div class="c" style="background:#009EE3"></div><div class="n">ocean-500 ★</div><div class="h">#009EE3 · 3.00</div><div class="k">ядро бренда, не текст</div></div>
+    <div class="sw"><div class="c" style="background:#0086C4"></div><div class="n">ocean-600</div><div class="h">#0086C4 · 4.03</div><div class="k">hover заливок</div></div>
+    <div class="sw"><div class="c" style="background:#00679F"></div><div class="n">ocean-700 ★</div><div class="h">#00679F · 6.10</div><div class="k">интерактив</div></div>
+    <div class="sw"><div class="c" style="background:#005080"></div><div class="n">ocean-800</div><div class="h">#005080 · 8.60</div><div class="k">active / pressed</div></div>
+    <div class="sw"><div class="c" style="background:#123A56"></div><div class="n">ocean-900</div><div class="h">#123A56 · 11.30</div><div class="k">тёмные плашки</div></div>
+  </div>
+
+  <h3>Depth — тёмная порода</h3>
+  <div class="swatches">
+    <div class="sw"><div class="c" style="background:#0E1C2E"></div><div class="n">depth-900</div><div class="h">#0E1C2E · 17.15</div><div class="k">текст, фон тём. темы</div></div>
+    <div class="sw"><div class="c" style="background:#1D2939"></div><div class="n">depth-800</div><div class="h">#1D2939</div><div class="k">поверхность тём.</div></div>
+    <div class="sw"><div class="c" style="background:#33404F"></div><div class="n">depth-700</div><div class="h">#33404F</div><div class="k">заголовки</div></div>
+    <div class="sw"><div class="c" style="background:#475467"></div><div class="n">depth-600</div><div class="h">#475467 · 7.69</div><div class="k">вторичный текст</div></div>
+    <div class="sw"><div class="c" style="background:#667085"></div><div class="n">depth-500</div><div class="h">#667085 · 4.97</div><div class="k">подписи</div></div>
+    <div class="sw"><div class="c" style="background:#8B95A5"></div><div class="n">depth-400</div><div class="h">#8B95A5</div><div class="k">плейсхолдеры</div></div>
+    <div class="sw"><div class="c" style="background:#B4BCC8"></div><div class="n">depth-300</div><div class="h">#B4BCC8</div><div class="k">границы полей</div></div>
+    <div class="sw"><div class="c" style="background:#D3D8E0"></div><div class="n">depth-200</div><div class="h">#D3D8E0</div><div class="k">разделители</div></div>
+    <div class="sw"><div class="c" style="background:#E6E9EF"></div><div class="n">depth-100</div><div class="h">#E6E9EF</div><div class="k">границы карточек</div></div>
+    <div class="sw"><div class="c" style="background:#F2F3F7"></div><div class="n">depth-50</div><div class="h">#F2F3F7</div><div class="k">фон секций</div></div>
+    <div class="sw"><div class="c" style="background:#F7F9FB"></div><div class="n">depth-25</div><div class="h">#F7F9FB</div><div class="k">фон страницы</div></div>
+    <div class="sw"><div class="c" style="background:#FFFFFF"></div><div class="n">depth-0</div><div class="h">#FFFFFF</div><div class="k">поверхность</div></div>
+  </div>
+
+  <h3>Steppe и Signal — статусы</h3>
+  <div class="swatches">
+    <div class="sw"><div class="c" style="background:#EAF7EE"></div><div class="n">steppe-50</div><div class="h">#EAF7EE</div><div class="k">фон success</div></div>
+    <div class="sw"><div class="c" style="background:#85D294"></div><div class="n">steppe-300</div><div class="h">#85D294</div><div class="k">графики</div></div>
+    <div class="sw"><div class="c" style="background:#37B550"></div><div class="n">steppe-500</div><div class="h">#37B550 · 2.66</div><div class="k">заливки ≥24px, ESG</div></div>
+    <div class="sw"><div class="c" style="background:#1F8F3D"></div><div class="n">steppe-600</div><div class="h">#1F8F3D · 4.15</div><div class="k">иконки статуса</div></div>
+    <div class="sw"><div class="c" style="background:#177A33"></div><div class="n">steppe-700 ★</div><div class="h">#177A33 · 5.43</div><div class="k">текст success</div></div>
+    <div class="sw"><div class="c" style="background:#8FC73E"></div><div class="n">lime-500</div><div class="h">#8FC73E · 2.02</div><div class="k">только графика</div></div>
+    <div class="sw"><div class="c" style="background:#E4A11B"></div><div class="n">amber-500</div><div class="h">#E4A11B</div><div class="k">иконки warning</div></div>
+    <div class="sw"><div class="c" style="background:#B54708"></div><div class="n">amber-700</div><div class="h">#B54708 · 5.43</div><div class="k">текст warning</div></div>
+    <div class="sw"><div class="c" style="background:#D64A3B"></div><div class="n">rust-500</div><div class="h">#D64A3B · 3.60</div><div class="k">иконки ошибки</div></div>
+    <div class="sw"><div class="c" style="background:#B42318"></div><div class="n">rust-700 ★</div><div class="h">#B42318 · 6.57</div><div class="k">текст ошибки, danger</div></div>
+  </div>
+
+  <h3>Палитра данных</h3>
+  <p>Порядок обязателен — первая серия всегда <code>data-1</code>. Максимум 6 серий, дальше — «Прочее». Категории всегда подписаны текстом: цвет — второй канал, а не единственный. Для «план/факт» — заливка и контур, а не два цвета.</p>
+  <div class="swatches">
+    <div class="sw"><div class="c" style="background:#00679F"></div><div class="n">data-1</div><div class="h">#00679F</div><div class="k">добыча нефти</div></div>
+    <div class="sw"><div class="c" style="background:#009EE3"></div><div class="n">data-2</div><div class="h">#009EE3</div><div class="k">транспортировка</div></div>
+    <div class="sw"><div class="c" style="background:#177A33"></div><div class="n">data-3</div><div class="h">#177A33</div><div class="k">переработка</div></div>
+    <div class="sw"><div class="c" style="background:#8FC73E"></div><div class="n">data-4</div><div class="h">#8FC73E</div><div class="k">нефтехимия</div></div>
+    <div class="sw"><div class="c" style="background:#B54708"></div><div class="n">data-5</div><div class="h">#B54708</div><div class="k">реализация</div></div>
+    <div class="sw"><div class="c" style="background:#6B4E9E"></div><div class="n">data-6</div><div class="h">#6B4E9E</div><div class="k">прочее</div></div>
+    <div class="sw"><div class="c" style="background:#B4BCC8"></div><div class="n">data-neutral</div><div class="h">#B4BCC8</div><div class="k">план, бенчмарк</div></div>
+  </div>
+
+  <h3>Семантические токены</h3>
+  <p>Компоненты используют <strong>только</strong> эту таблицу. К примитивам напрямую не обращаемся. Имя описывает роль, а не внешний вид: <code>--text-link</code>, не <code>--text-blue</code>.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Токен</th><th>Светлая тема</th><th>Тёмная тема</th></tr></thead>
+    <tbody>
+      <tr><td><code>bg-page</code></td><td class="chip-hex">depth-25</td><td class="chip-hex">depth-900</td></tr>
+      <tr><td><code>bg-surface</code></td><td class="chip-hex">depth-0</td><td class="chip-hex">depth-800</td></tr>
+      <tr><td><code>bg-surface-raised</code></td><td class="chip-hex">depth-0</td><td class="chip-hex">#25344A</td></tr>
+      <tr><td><code>bg-subtle</code></td><td class="chip-hex">depth-50</td><td class="chip-hex">#16293F</td></tr>
+      <tr><td><code>bg-brand</code></td><td class="chip-hex">ocean-500</td><td class="chip-hex">ocean-500</td></tr>
+      <tr><td><code>bg-brand-subtle</code></td><td class="chip-hex">ocean-50</td><td class="chip-hex">rgba(0,158,227,.14)</td></tr>
+      <tr><td><code>text-primary</code></td><td class="chip-hex">depth-900</td><td class="chip-hex">#F2F5F9</td></tr>
+      <tr><td><code>text-secondary</code></td><td class="chip-hex">depth-600</td><td class="chip-hex">#AEB9C8</td></tr>
+      <tr><td><code>text-link</code></td><td class="chip-hex">ocean-700</td><td class="chip-hex">#6FD1F6</td></tr>
+      <tr><td><code>text-success</code></td><td class="chip-hex">steppe-700</td><td class="chip-hex">#85D294</td></tr>
+      <tr><td><code>text-warning</code></td><td class="chip-hex">amber-700</td><td class="chip-hex">#F0C25C</td></tr>
+      <tr><td><code>text-danger</code></td><td class="chip-hex">rust-700</td><td class="chip-hex">#F09A90</td></tr>
+      <tr><td><code>border-subtle / default / strong</code></td><td class="chip-hex">depth-100 / 200 / 300</td><td class="chip-hex">rgba(255,255,255,.10 / .16 / .28)</td></tr>
+      <tr><td><code>border-focus</code></td><td class="chip-hex">ocean-700</td><td class="chip-hex">#6FD1F6</td></tr>
+      <tr><td><code>action-primary</code> (hover / active)</td><td class="chip-hex">ocean-700 (800 / #00415F)</td><td class="chip-hex">ocean-600 (500 / 700)</td></tr>
+      <tr><td><code>action-danger</code></td><td class="chip-hex">rust-700</td><td class="chip-hex">#D64A3B</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="margin-top:10px">Эта страница сама живёт на этих токенах: переключите тему приложения — палитра, тени и границы перестроятся по таблице выше. Режим high-contrast дополнительно обнуляет радиусы и тени и переводит все границы в #000000.</p>
+</section>
+
+<section id="type">
+  <div class="eyebrow">05</div>
+  <h2>Типографика</h2>
+  <p class="intro">Текущий сайт использует Ubuntu. Меняем — не из вкуса, а из-за трёх языков и цифр. Все три гарнитуры — открытые лицензии (OFL/Apache), самохостинг без юридических рисков, есть переменные версии.</p>
+  <div class="cards2">
+    <div class="card"><h4 style="font-family:var(--font-display);font-size:1.375rem">Display · IBM Plex Sans Condensed</h4>
+      <p style="font-family:var(--font-display);font-weight:600;font-size:1.5rem;line-height:1.2;color:var(--text-primary);margin-bottom:8px">Әбдіғали Жүсіпұлы · Маңғыстау · Қашаған</p>
+      <p>Инженерный характер, узкая — крупные заголовки на казахском помещаются в строку без переносов.</p></div>
+    <div class="card"><h4>Body / UI · Inter</h4>
+      <p style="font-size:1.0625rem;color:var(--text-primary);margin-bottom:8px">ә ғ қ ң ө ұ ү һ і · 0123456789</p>
+      <p>Полное покрытие казахской кириллицы, табличные цифры, отличная читаемость в мелком кегле.</p></div>
+    <div class="card"><h4 style="font-family:var(--font-mono);font-weight:500">Data / Mono · IBM Plex Mono</h4>
+      <p style="font-family:var(--font-mono);font-size:.9375rem;color:var(--text-primary);margin-bottom:8px;font-variant-numeric:tabular-nums">KASE:KMGZ 12 480 ₸ · +0,4%</p>
+      <p>Котировки, ID тендеров, коды документов, номера скважин.</p></div>
+  </div>
+  <div class="callout">
+    <p><strong>Проверить перед фиксацией:</strong> прогнать оба шрифта на строке «Әбдіғали Жүсіпұлы · Маңғыстау · Қашаған» и сверить глифы с эталоном. Если у Condensed окажутся дыры в казахской кириллице — заменить display на Inter Tight: система становится однофамильной, но целостной.</p>
+  </div>
+
+  <h3>Шкала</h3>
+  <p class="small">Основание 16px, шаг ~1.25. Все размеры в rem, чтобы работал переключатель +A / −A. Мобильная шкала: display-1 → 40, display-2 → 32, heading-1 → 28.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Токен</th><th>Образец</th><th class="num">Кегль</th><th class="num">Интерлиньяж</th><th>Применение</th></tr></thead>
+    <tbody>
+      <tr><td><code>display-1</code></td><td><span style="font-family:var(--font-display);font-weight:600;font-size:3rem;line-height:1.02;letter-spacing:-.02em">544</span></td><td class="num">72</td><td class="num">1.02</td><td>Цифра-герой на главной</td></tr>
+      <tr><td><code>display-2</code></td><td><span style="font-family:var(--font-display);font-weight:600;font-size:2.5rem;line-height:1.05;letter-spacing:-.02em">Инвесторам</span></td><td class="num">56</td><td class="num">1.05</td><td>Раздел-обложка</td></tr>
+      <tr><td><code>heading-1</code></td><td><span style="font-family:var(--font-display);font-weight:600;font-size:2rem;line-height:1.15;letter-spacing:-.01em">Годовой отчёт</span></td><td class="num">40</td><td class="num">1.15</td><td>H1 страницы</td></tr>
+      <tr><td><code>heading-2</code></td><td><span style="font-family:var(--font-display);font-weight:600;font-size:1.625rem;letter-spacing:-.01em">Показатели</span></td><td class="num">32</td><td class="num">1.2</td><td>H2</td></tr>
+      <tr><td><code>heading-3</code></td><td><span style="font-weight:600;font-size:1.25rem">Заголовок карточки</span></td><td class="num">24</td><td class="num">1.3</td><td>H3</td></tr>
+      <tr><td><code>heading-4</code></td><td><span style="font-weight:600;font-size:1.0625rem">Блок в форме</span></td><td class="num">20</td><td class="num">1.35</td><td>H4</td></tr>
+      <tr><td><code>body-lg</code></td><td><span style="font-size:1.125rem">Лид-абзац пресс-релиза</span></td><td class="num">18</td><td class="num">1.6</td><td>Лид</td></tr>
+      <tr><td><code>body-md</code></td><td><span>Основной текст страницы</span></td><td class="num">16</td><td class="num">1.6</td><td>Текст</td></tr>
+      <tr><td><code>body-sm</code></td><td><span style="font-size:.875rem">Плотные интерфейсы, таблицы</span></td><td class="num">14</td><td class="num">1.55</td><td>Таблицы</td></tr>
+      <tr><td><code>caption</code></td><td><span style="font-size:.8125rem;color:var(--text-tertiary)">Подпись, дата, сноска</span></td><td class="num">13</td><td class="num">1.45</td><td>Подписи</td></tr>
+      <tr><td><code>eyebrow</code></td><td><span class="eyebrow">Надзаголовок</span></td><td class="num">12</td><td class="num">1.3</td><td>Метка раздела</td></tr>
+      <tr><td><code>metric-xl</code></td><td><span style="font-family:var(--font-display);font-weight:600;font-size:2.75rem;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums">93,8</span></td><td class="num">64</td><td class="num">1.0</td><td>KPI в дашборде</td></tr>
+      <tr><td><code>mono-sm</code></td><td><span style="font-family:var(--font-mono);font-size:.8125rem;font-variant-numeric:tabular-nums">TND-2026-08-114</span></td><td class="num">13</td><td class="num">1.5</td><td>Котировки, коды</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Правила набора</h3>
+  <p>Максимальная длина строки — 72 символа (для казахского — 68). Все цифры в таблицах и KPI — <code>tabular-nums</code>. Заголовки не переносятся по слогам. Не более двух начертаний на экране; курсив — только в цитатах и названиях судов и установок. Uppercase — только eyebrow и не длиннее 4 слов: казахский в верхнем регистре читается тяжело.</p>
+</section>
+
+<section id="space">
+  <div class="eyebrow">06</div>
+  <h2>Сетка, отступы, форма</h2>
+  <p class="intro">База 4px. Промежуточных значений не бывает — если нужно 18px, значит компонент спроектирован неверно.</p>
+  <div class="spacebars">
+    <div class="spacebar"><code>space-1</code><i style="width:4px"></i><span>4 · иконка ↔ текст в чипе</span></div>
+    <div class="spacebar"><code>space-2</code><i style="width:8px"></i><span>8 · внутри плотных элементов</span></div>
+    <div class="spacebar"><code>space-3</code><i style="width:12px"></i><span>12 · ячейка таблицы (compact)</span></div>
+    <div class="spacebar"><code>space-4</code><i style="width:16px"></i><span>16 · базовый шаг, паддинг поля</span></div>
+    <div class="spacebar"><code>space-6</code><i style="width:24px"></i><span>24 · паддинг карточки</span></div>
+    <div class="spacebar"><code>space-8</code><i style="width:32px"></i><span>32 · между блоками секции</span></div>
+    <div class="spacebar"><code>space-12</code><i style="width:48px"></i><span>48 · между секциями (моб.)</span></div>
+    <div class="spacebar"><code>space-16</code><i style="width:64px"></i><span>64 · между секциями</span></div>
+    <div class="spacebar"><code>space-24</code><i style="width:96px"></i><span>96 · отбивка hero</span></div>
+  </div>
+
+  <h3>Сетка</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Брейкпоинт</th><th class="num">Ширина</th><th class="num">Колонки</th><th class="num">Гаттер</th><th class="num">Поля</th></tr></thead>
+    <tbody>
+      <tr><td><code>xs</code></td><td class="num">360–767</td><td class="num">4</td><td class="num">16</td><td class="num">16</td></tr>
+      <tr><td><code>sm</code></td><td class="num">768–1023</td><td class="num">8</td><td class="num">20</td><td class="num">24</td></tr>
+      <tr><td><code>md</code></td><td class="num">1024–1279</td><td class="num">12</td><td class="num">24</td><td class="num">32</td></tr>
+      <tr><td><code>lg</code></td><td class="num">1280–1599</td><td class="num">12</td><td class="num">24</td><td class="num">48</td></tr>
+      <tr><td><code>xl</code></td><td class="num">≥1600</td><td class="num">12</td><td class="num">32</td><td class="num">64</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="margin-top:10px">Контент — максимум 1440px. Текстовые страницы — 760px, выключены по левому краю колонки, не по центру.</p>
+
+  <h3>Радиусы</h3>
+  <div class="radii">
+    <div class="r"><i style="border-radius:0"></i><div class="n">radius-none · 0</div><div class="k">таблицы, разрез, графики</div></div>
+    <div class="r"><i style="border-radius:4px"></i><div class="n">radius-sm · 4</div><div class="k">чипы, бейджи, поля</div></div>
+    <div class="r"><i style="border-radius:8px"></i><div class="n">radius-md · 8</div><div class="k">кнопки, карточки, модалки</div></div>
+    <div class="r"><i style="border-radius:12px"></i><div class="n">radius-lg · 12</div><div class="k">медиа-карточки</div></div>
+    <div class="r"><i style="border-radius:999px;width:64px"></i><div class="n">radius-full</div><div class="k">аватары, счётчики</div></div>
+  </div>
+  <p class="small" style="margin-top:10px">Институциональный характер держим малыми радиусами. Ничего скруглённее 12px в системе нет.</p>
+
+  <h3>Плотность</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Компонент</th><th class="num">comfortable</th><th class="num">compact</th></tr></thead>
+    <tbody>
+      <tr><td>Кнопка md</td><td class="num">44px</td><td class="num">36px</td></tr>
+      <tr><td>Поле ввода</td><td class="num">44px</td><td class="num">36px</td></tr>
+      <tr><td>Строка таблицы</td><td class="num">56px</td><td class="num">40px</td></tr>
+      <tr><td>Пункт навигации</td><td class="num">48px</td><td class="num">40px</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="margin-top:10px">Минимальная область нажатия на тач — 44×44px независимо от плотности: в compact увеличиваем невидимую зону, а не сам элемент.</p>
+
+  <h3>Тени и z-индексы</h3>
+  <p>Тень — признак того, что слой физически поднят над страницей, а не украшение. Карточки на странице — только <code>border-subtle</code>; <code>shadow-sm</code> — sticky-шапка, <code>shadow-md</code> — дропдаун, <code>shadow-lg</code> — модалка. В тёмной теме тени заменяются границами rgba(255,255,255,.12) — тень на тёмном не читается.</p>
+  <pre>base 0 · sticky-strata 10 · header 100 · dropdown 200 ·
+drawer 300 · modal 400 · toast 500 · a11y-panel 900</pre>
+  <p class="small">Панель доступности всегда выше всего — до неё пользователь должен дотянуться из любого состояния.</p>
+</section>
+
+<section id="motion">
+  <div class="eyebrow">07</div>
+  <h2>Движение</h2>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Токен</th><th class="num">Значение</th><th>Где</th></tr></thead>
+    <tbody>
+      <tr><td><code>duration-instant</code></td><td class="num">80ms</td><td>Hover фона, смена цвета</td></tr>
+      <tr><td><code>duration-fast</code></td><td class="num">140ms</td><td>Кнопки, чипы, чекбоксы</td></tr>
+      <tr><td><code>duration-base</code></td><td class="num">220ms</td><td>Дропдауны, аккордеон, табы</td></tr>
+      <tr><td><code>duration-slow</code></td><td class="num">320ms</td><td>Модалка, drawer, смена темы</td></tr>
+      <tr><td><code>ease-standard</code></td><td class="num">cubic-bezier(.2,0,0,1)</td><td>Вход элемента</td></tr>
+      <tr><td><code>ease-exit</code></td><td class="num">cubic-bezier(.4,0,1,1)</td><td>Выход элемента</td></tr>
+      <tr><td><code>ease-emphasis</code></td><td class="num">cubic-bezier(.2,0,0,1.2)</td><td>Только счётчик KPI</td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:16px">Анимируем <code>opacity</code> и <code>transform</code>. Не анимируем height, width, top — используем <code>grid-template-rows: 0fr → 1fr</code> или <code>scaleY</code>. Единственная оркестрованная анимация — счётчики KPI на главной: 900 мс, ease-out, сдвиг 60 мс между соседними; всё остальное в этот момент неподвижно. При <code>prefers-reduced-motion</code> счётчики показывают конечное значение сразу.</p>
+</section>
+
+<section id="components">
+  <div class="eyebrow">08</div>
+  <h2>Компоненты</h2>
+
+  <h3>Кнопка</h3>
+  <div class="demo">
+    <button class="btn btn-primary" type="button">Скачать отчёт</button>
+    <button class="btn btn-secondary" type="button">Подать обращение</button>
+    <button class="btn btn-tertiary" type="button">Показать все</button>
+    <button class="btn btn-danger" type="button">Отозвать заявку</button>
+    <button class="btn btn-primary" type="button" disabled>Скачать отчёт</button>
+    <button class="btn btn-primary btn-sm" type="button">Compact · 36px</button>
+  </div>
+  <p class="small" style="margin-top:10px">На экране одна primary — две primary рядом это ошибка проектирования, а не стилистики. Ширина по контенту: казахская подпись длиннее русской. Кнопка с одной иконкой обязана иметь aria-label. Состояния: hover — фон на ступень темнее, active — на две, без сдвига; loading — спиннер слева при зафиксированной ширине.</p>
+
+  <h3>Ссылка</h3>
+  <div class="demo" style="display:block;font-size:.9375rem">
+    <p style="margin:0">Инлайновая <a href="#components">ссылка с подчёркиванием</a> — подчёркивание не убираем никогда: в тексте цвет — единственный признак, и его недостаточно. Ссылка на файл: <a href="#components">Годовой отчёт 2025 (PDF, 12 МБ)</a>. Внешняя: <a href="#components" aria-label="KASE, откроется в новой вкладке">kase.kz ↗</a></p>
+  </div>
+
+  <h3>Поля ввода</h3>
+  <div class="demo">
+    <div class="field">
+      <label for="f1">Телефон</label>
+      <input id="f1" type="text" placeholder="+7 7XX XXX XX XX">
+      <span class="hint">Плейсхолдер — пример формата, а не повтор лейбла</span>
+    </div>
+    <div class="field err">
+      <label for="f2">ИИН (обязательное)</label>
+      <input id="f2" type="text" value="12345">
+      <span class="hint">⚠ ИИН состоит из 12 цифр. Введено: 5</span>
+    </div>
+  </div>
+  <p class="small" style="margin-top:10px">Лейбл всегда видимый, не плейсхолдер. Обязательность помечаем словом «обязательное», а не звёздочкой; если обязательны почти все — помечаем необязательные. Цвет никогда не единственный носитель ошибки.</p>
+
+  <h3>Бейджи и статусы</h3>
+  <div class="demo">
+    <span class="badge n">Черновик</span>
+    <span class="badge i">На рассмотрении</span>
+    <span class="badge s">Опубликован</span>
+    <span class="badge w">Закрытый период</span>
+    <span class="badge e">Отклонён</span>
+  </div>
+  <p class="small" style="margin-top:10px">Точка-индикатор 6px — второй канал помимо цвета.</p>
+
+  <h3>Уведомления</h3>
+  <div class="alert info" role="status"><div><b>Календарь инвестора обновлён</b>Дата публикации отчёта за I полугодие — 15.09.2026.</div></div>
+  <div class="alert warn" role="status"><div><b>Закрытый период</b>С 01.09.2026 действуют ограничения на сделки с ценными бумагами КМГ. Уведомление не закрывается и не скрывается автоматически.</div></div>
+  <div class="alert err" role="alert"><div><b>Не удалось загрузить котировки</b>Обновите страницу или посмотрите данные на kase.kz.</div></div>
+
+  <h3>KPI-карточка</h3>
+  <div class="demo" style="align-items:stretch">
+    <div class="kpicard" aria-label="Добыча нефти 26 миллионов тонн, рост 3,2 процента к 2024 году">
+      <div class="strata"><i style="width:20%;background:var(--data-1)"></i><i style="width:64%;background:var(--data-2)"></i><i style="width:16%;background:var(--data-3)"></i></div>
+      <div class="eyebrow">Добыча нефти</div>
+      <div class="v">26</div><div class="u">млн тонн</div>
+      <div class="d up">↑ +3,2% к 2024</div>
+    </div>
+    <div class="kpicard">
+      <div class="strata"><i style="width:20%;background:var(--data-1)"></i><i style="width:64%;background:var(--data-2)"></i><i style="width:16%;background:var(--data-3)"></i></div>
+      <div class="eyebrow">Транспортировка</div>
+      <div class="v">83</div><div class="u">млн тонн</div>
+      <div class="d down">↓ −1,1% к 2024</div>
+    </div>
+    <div class="kpicard">
+      <div class="strata"><i style="width:20%;background:var(--data-1)"></i><i style="width:64%;background:var(--data-2)"></i><i style="width:16%;background:var(--data-3)"></i></div>
+      <div class="eyebrow">Переработка</div>
+      <div class="v">21</div><div class="u">млн тонн</div>
+      <div class="d up">↑ +0,8% к 2024</div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:10px">Тень отсутствует — карточки KPI лежат на странице, а не парят над ней. Стрелка обязательна: цвет не единственный носитель динамики. Разрез сверху — только если карточка входит в набор с осмысленными долями.</p>
+
+  <h3>Таблица данных</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Показатель</th><th class="num">2024</th><th class="num">2025</th><th class="num">Δ</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td>Добыча нефти, млн тонн</td><td class="num">25,2</td><td class="num">26,0</td><td class="num" style="color:var(--text-success);font-weight:600">+3,2%</td><td><span class="badge s">Факт</span></td></tr>
+      <tr><td>Транспортировка нефти, млн тонн</td><td class="num">83,9</td><td class="num">83,0</td><td class="num" style="color:var(--text-danger);font-weight:600">−1,1%</td><td><span class="badge s">Факт</span></td></tr>
+      <tr><td>Переработка, млн тонн</td><td class="num">20,8</td><td class="num">21,0</td><td class="num" style="color:var(--text-success);font-weight:600">+0,8%</td><td><span class="badge i">Предв.</span></td></tr>
+      <tr style="font-weight:600;background:var(--bg-subtle)"><td style="border-top:2px solid var(--border-strong)">Итого, млн тонн</td><td class="num" style="border-top:2px solid var(--border-strong)">129,9</td><td class="num" style="border-top:2px solid var(--border-strong)">130,0</td><td class="num" style="border-top:2px solid var(--border-strong)">+0,1%</td><td style="border-top:2px solid var(--border-strong)"></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="margin-top:10px">Числовые колонки — по правому краю, tabular-nums; шапка sticky; сортировка через aria-sort. На мобильном таблица не превращается в карточки: горизонтальный скролл с закреплённой первой колонкой честнее — пользователь видит, что данных больше. Пустое состояние — внутри tbody с сохранением шапки.</p>
+
+  <h3>Прочее</h3>
+  <p><strong>Модалка</strong> — центр, максимум 640px, фокус-ловушка, Esc закрывает, фокус возвращается на триггер. <strong>Drawer</strong> — справа, 480px, для фильтров и деталей. <strong>Табы</strong> — только для равнозначных представлений одних данных, не для шагов сценария. <strong>Пагинация</strong> — с номерами, а не «Показать ещё», везде где на страницу можно дать ссылку. <strong>Мега-меню</strong> — раскрывается по клику, не по наведению: наведение непредсказуемо на тачпаде и недоступно с клавиатуры. <strong>Тултип</strong> — только уточнение, никогда не единственный носитель важной информации. <strong>Карточка документа</strong> — иконка формата, название, метаданные (тип, дата, вес), кнопка «Скачать»; год в eyebrow, чтобы список сканировался по годам.</p>
+</section>
+
+<section id="patterns">
+  <div class="eyebrow">09</div>
+  <h2>Паттерны</h2>
+
+  <h3>Главная страница</h3>
+  <p>Герой — цифра, а не слоган и не карусель. Карусель прячет пять сообщений за одним: пользователь видит одно, остальные существуют только для того, кто ждёт. Заменяем на статичный герой + блок показателей. Котировки размещаем выше новостей: для инвесторской аудитории это причина зайти, а остальным — не мешает.</p>
+
+  <h3>Дашборд руководителя (CEO Hub)</h3>
+  <p>Плотность compact, тема по умолчанию тёмная. Один экран — один вопрос: «как идёт добыча» и «что с закупками» — разные экраны. Период данных подписан у каждого блока; время последнего обновления — обязательный элемент. Загрузка — скелетоны структуры, а не спиннер по центру. Ошибка данных не роняет весь дашборд: блок показывает своё состояние с кнопкой «Повторить», остальные работают.</p>
+  <div class="hub">
+    <div class="hd"><b>Производство · итоги суток</b><span>Обновлено 01.09.2026 в 11:50</span></div>
+    <div class="grid">
+      <div class="cell"><div class="l">Добыча</div><div class="n">544</div><div class="s">тыс. барр./сутки</div><div class="s up">↑ +0,4%</div></div>
+      <div class="cell"><div class="l">Транспорт</div><div class="n">228</div><div class="s">тыс. тонн/сутки</div><div class="s down">↓ −1,1%</div></div>
+      <div class="cell"><div class="l">Переработка</div><div class="n">93,8</div><div class="s">% загрузки НПЗ</div><div class="s up">↑ +2,3 п.п.</div></div>
+      <div class="cell"><div class="l">Brent</div><div class="n">78,4</div><div class="s">$/баррель</div><div class="s down">↓ −0,6%</div></div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:10px">Панель выше намеренно всегда тёмная — это демонстрация тёмных токенов независимо от темы страницы.</p>
+
+  <h3>Состояния</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Состояние</th><th>Что показываем</th></tr></thead>
+    <tbody>
+      <tr><td>Нет данных за период</td><td>«Отчёты за 2026 год появятся после публикации годовой отчётности» + ссылка на календарь инвестора</td></tr>
+      <tr><td>Поиск без результатов</td><td>Что искали + 3 предложения по уточнению + ссылка на карту сайта</td></tr>
+      <tr><td>Ошибка загрузки</td><td>Что не загрузилось + «Повторить» + альтернативный путь (PDF, телефон)</td></tr>
+      <tr><td>Долгая загрузка</td><td>Скелетон структуры; от 3 секунд — поясняющая подпись</td></tr>
+      <tr><td>Нет доступа</td><td>Причина + к кому обратиться. Никогда просто «403»</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="margin-top:10px">Пресс-релиз: колонка 760px, дата и рубрика над заголовком, лид body-lg. Форма обращения: один столбец, валидация при потере фокуса, сводка ошибок с якорями над формой; после отправки — экран подтверждения с номером обращения и сроком ответа, а не тост.</p>
+</section>
+
+<section id="dataviz">
+  <div class="eyebrow">10</div>
+  <h2>Диаграммы</h2>
+  <p class="intro">Ось Y начинается с нуля: обрезанная ось в отчётности публичной компании — репутационный риск, а не приём.</p>
+  <div class="demo" style="display:block">
+    <div class="eyebrow" style="margin-bottom:14px">Добыча нефти, млн тонн · план и факт</div>
+    <div class="chart" role="img" aria-label="Добыча нефти по годам: 2023 факт 23,5; 2024 факт 25,2; 2025 факт 26,0; 2026 план 26,5 млн тонн">
+      <div class="col"><span class="val">23,5</span><div class="bar" style="height:71%"></div></div>
+      <div class="col"><span class="val">25,2</span><div class="bar" style="height:76%"></div></div>
+      <div class="col"><span class="val">26,0</span><div class="bar" style="height:79%"></div></div>
+      <div class="col"><span class="val">26,5</span><div class="bar plan" style="height:80%"></div></div>
+    </div>
+    <div class="chart-x"><span>2023</span><span>2024</span><span>2025</span><span>2026 · план</span></div>
+  </div>
+  <p style="margin-top:16px">Подписи значений прямо на элементах, если серий ≤3; легенда — только от 4. Сетка — только горизонтальная, border-subtle. Столбцы без радиуса: радиус искажает восприятие высоты; ширина ≥ 2× зазора. Факт — заливка <code>data-1</code>, план — контур той же геометрии, не второй цвет. Для показателей, где рост — это плохо (выбросы, аварии), цветовая логика инвертируется и это подписывается в легенде. Каждая диаграмма дублируется таблицей — кнопка «Показать данные»: одновременно требование доступности и удобство аналитика.</p>
+</section>
+
+<section id="a11y">
+  <div class="eyebrow">11</div>
+  <h2>Доступность</h2>
+  <p class="intro">Целевой уровень — WCAG 2.1 AA; для государственных и инвесторских разделов стремимся к AAA по контрасту. Режимы (нормальный, чёрно-белый, высококонтрастный, без изображений, масштаб +A/−A) реализуются через data-theme и data-scale, а не отдельной вёрсткой: одна кодовая база, иначе спецверсия неизбежно отстанет.</p>
+  <p>Обязательный минимум: контраст текста ≥ 4.5:1 (крупного ≥ 3:1, границ активных элементов ≥ 3:1); видимый фокус на каждом интерактивном элементе — <code>outline:none</code> без замены это критический баг; вся функциональность с клавиатуры, порядок табуляции совпадает с визуальным; «Перейти к содержимому» первым элементом в DOM; один H1 и корректная иерархия заголовков; alt у всех изображений; ошибки форм через aria-live; цвет нигде не единственный носитель смысла; текст масштабируется до 200% (все размеры в rem); prefers-reduced-motion уважается; lang на html и на каждом иноязычном фрагменте.</p>
+  <h3>Чек-лист перед релизом компонента</h3>
+  <ul class="checklist">
+    <li>Проверен с клавиатуры без мыши</li>
+    <li>Проверен в NVDA или VoiceOver</li>
+    <li>Контраст замерен во всех состояниях, включая disabled и hover</li>
+    <li>Работает при 200% масштабе</li>
+    <li>Работает в high-contrast теме</li>
+    <li>Проверен на казахской локали — самые длинные строки</li>
+    <li>Работает при prefers-reduced-motion</li>
+  </ul>
+</section>
+
+<section id="i18n">
+  <div class="eyebrow">12</div>
+  <h2>Три языка</h2>
+  <div class="tblwrap"><table>
+    <thead><tr><th></th><th>RU</th><th>ҚАЗ</th><th>ENG</th></tr></thead>
+    <tbody>
+      <tr><td>Средняя длина строки</td><td>базовая</td><td>+10–15%</td><td>−5–10%</td></tr>
+      <tr><td>Риск</td><td>—</td><td>Переполнение кнопок, обрезка в шапке</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:16px">Макет проверяется на казахском: если помещается на ҚАЗ — поместится везде. Ни один текстовый контейнер не имеет фиксированной ширины с overflow:hidden без title. Шрифт обязан покрывать ә ғ қ ң ө ұ ү һ і — проверка перед подключением любого начертания. Переключение языка ведёт на ту же страницу на другом языке, а не на главную; если перевода нет — сообщение и ссылка на раздел, а не тихий редирект. Числа и даты форматируются локалью (<code>Intl.NumberFormat</code>), не строкой. Названия компаний группы не переводятся: KMG International, KMG Systems &amp; Services.</p>
+</section>
+
+<section id="gov">
+  <div class="eyebrow">13</div>
+  <h2>Управление системой</h2>
+  <h3>Нейминг</h3>
+  <pre>--kmg-{палитра}-{ступень}              примитив     --kmg-ocean-700
+--{категория}-{роль}-{модификатор}     семантика    --text-link-hover
+kmg-{компонент}--{вариант}             класс        kmg-button--secondary</pre>
+  <p>Имя семантического токена описывает роль, а не внешний вид: цвет может измениться, роль — нет.</p>
+  <h3>Версионирование</h3>
+  <p>SemVer. <strong>major</strong> — удаление или переименование токена/компонента; <strong>minor</strong> — новый токен или вариант; <strong>patch</strong> — исправление значения без слома API. Удаление проходит через deprecation: минимум один minor-релиз токен живёт с пометкой <code>$deprecated</code> и указанием замены.</p>
+  <h3>Процесс</h3>
+  <p>Задача → проверка, решается ли существующим → предложение с обоснованием и ≥2 примерами применения в разных продуктах → ревью дизайн-лида и фронтенд-лида → реализация (Figma-компонент + код + документация + чек-лист доступности) → релиз, changelog, объявление в рабочем канале. Разовое исключение не попадает в систему: компонент рождается из повторяющейся задачи, а не из красивой идеи.</p>
+  <h3>Figma ↔ код</h3>
+  <p><code>tokens.json</code> (формат W3C Design Tokens) — единственный источник правды. Figma Variables импортируются из него; <code>style-dictionary build</code> генерирует tokens.css, tokens.scss, Tokens.kt, Tokens.swift, figma-variables.json. Правка цвета в Figma вручную считается расхождением и откатывается.</p>
+</section>
+
+<section id="roadmap">
+  <div class="eyebrow">14</div>
+  <h2>Дорожная карта внедрения</h2>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Этап</th><th class="num">Срок</th><th>Результат</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Фундамент</td><td class="num">2–3 недели</td><td>Токены, шрифты, темы, tokens.css, Figma Variables</td></tr>
+      <tr><td>2 · Ядро компонентов</td><td class="num">4–6 недель</td><td>Кнопки, поля, таблица, карточки, навигация, модалка</td></tr>
+      <tr><td>3 · Пилот</td><td class="num">3–4 недели</td><td>Раздел «Инвесторам» полностью на системе</td></tr>
+      <tr><td>4 · CEO Hub</td><td class="num">4–6 недель</td><td>Тёмная тема, compact-плотность, дашборд-паттерны</td></tr>
+      <tr><td>5 · Миграция сайта</td><td class="num">2–3 месяца</td><td>Постранично, начиная с самых посещаемых</td></tr>
+      <tr><td>6 · Регламент</td><td class="num">постоянно</td><td>Дизайн-ревью, changelog, обучение команд</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout green" style="margin-top:24px">
+    <p><strong>Первая неделя, независимо от всего остального:</strong> заменить цвет кнопок и ссылок с #009EE3 на #00679F. Это одна строка в CSS — и единственное изменение, которое сразу выводит сайт из нарушения WCAG по интерактивным элементам.</p>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="eyebrow">15</div>
+  <h2>Открытые вопросы к владельцу бренда</h2>
+  <ol class="qa">
+    <li>Есть ли действующий брендбук КМГ и какие его положения обязательны к сохранению?</li>
+    <li>Утверждена ли «Самрук-Қазына» типографика для дочерних компаний — есть ли ограничения по гарнитурам?</li>
+    <li>Требования госстандарта по версии для слабовидящих: какой нормативный документ применяется?</li>
+    <li>CEO Hub — внутренний контур или часть публичной экосистемы? От этого зависит, одна это система или две с общим ядром.</li>
+    <li>Кто владелец системы после сдачи и в каком бюджете живёт её поддержка?</li>
+    <li>Нужна ли казахская версия названий компонентов в Figma для внутренних команд?</li>
+  </ol>
+</section>
+
+<footer>Документ живой. Все значения проверены расчётом контраста по WCAG 2.1 на дату версии. При изменении палитры расчёты повторяются. Правило приоритета: токен → компонент → паттерн; хардкод цвета в коде считается багом, а не стилем.</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els=document.querySelectorAll('[data-count]');
+  if(reduce)return;
+  els.forEach(function(el,i){
+    var target=parseFloat(el.dataset.count),dec=parseInt(el.dataset.dec||'0',10);
+    var t0=null;
+    function fmt(v){return v.toFixed(dec).replace('.',',');}
+    el.textContent=fmt(0);
+    setTimeout(function(){
+      requestAnimationFrame(function step(ts){
+        if(!t0)t0=ts;
+        var p=Math.min((ts-t0)/900,1);
+        var e=1-Math.pow(1-p,3);
+        el.textContent=fmt(target*e);
+        if(p<1)requestAnimationFrame(step);
+      });
+    },i*60);
+  });
+})();
+</script>
+</body>
+</html>
